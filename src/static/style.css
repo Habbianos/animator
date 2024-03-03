@@ -1,0 +1,9 @@
+.animated-avatar {
+	display: inline-flex;
+	vertical-align: top;
+	image-rendering: pixelated;
+	border: 1px solid;
+}
+.animated-avatar:has(.loading) {
+	border-style: dashed;
+}
