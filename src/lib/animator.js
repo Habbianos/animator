@@ -45,6 +45,7 @@ class Avatar {
 	 * @property {Gesture} gesture
 	 * @property {Action[]} action
 	 * @property {number} handItem
+	 * @property {number} signItem
 	 * @property {number} frame
 	 * @property {boolean} headOnly
 	 */
@@ -84,8 +85,9 @@ class Avatar {
 			gesture: "none",
 			action: [],
 			handItem: 0,
+			signItem: 0,
 			frame: 0,
-			// size: 'b', // s | m
+			// size: 'b', // s | m | l
 			headOnly: false,
 		};
 	}
@@ -117,7 +119,9 @@ class Avatar {
 				ignoreHandItemActions = handItemActions.filter(
 					(x) => x !== action
 				);
-			} else actions.push(action);
+			} else if (action === "sig")
+				actions.push([action, this.#state.signItem].join("="))
+			else actions.push(action);
 		}
 		if (actions.length) params.set("action", actions.join(","));
 
@@ -207,6 +211,14 @@ class Avatar {
 		this.#activeActionWithDuration("drk", "drink", duration);
 	}
 
+	set signItem(item = 0) {
+		this.#state.signItem = item;
+	}
+
+	set sign(duration = Infinity) {
+		this.#activeActionWithDuration("sig", "sign", duration);
+	}
+
 	set direction(dir = 2) {
 		this.#shouldUpdate = true;
 		if (Array.isArray(dir)) {
@@ -221,7 +233,7 @@ class Avatar {
 	/** @param {Gesture} gesture */
 	set gesture(gesture = "none") {
 		// TODO: missing: eye blinking and speaking (has 2 frames)
-		if (["blk", "spk"].includes(gesture)) console.trace("TODO");
+		if (["eyb", "spk"].includes(gesture)) console.trace("TODO");
 		this.#shouldUpdate = true;
 		if (!["sml", "srp", "sad", "agr"].includes(gesture))
 			this.#state.gesture = "none";

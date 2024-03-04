@@ -35,10 +35,10 @@
 
 /**
  * @typedef Gesture
- * @type {'none' | 'sml' | 'srp' | 'sad' | 'agr'}
+ * @type {'none' | 'sml' | 'srp' | 'sad' | 'agr' | 'blw' | 'spk' | 'eyb'} // lag | lay | ley | lsa | lsm (smile) | lsp (lay and speak) | lsr
  */
 
 /**
  * @typedef Action
- * @type {'std' | 'wlk' | 'wav' | 'sit' | 'lay'}
+ * @type {'std' | 'wlk' | 'wav' | 'sit' | 'lay' | 'cry' | 'drk' | 'blw' | 'spk' | 'sig'}
  */
