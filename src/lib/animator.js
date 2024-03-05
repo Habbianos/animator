@@ -7,6 +7,15 @@ class Sequence {
 	/** @type {SequenceFreezedArray} */
 	#_list = null;
 
+	constructor(list) {
+		if (this.#validList(list)) this.#list = list;
+	}
+
+	#validList(list) {
+		// TODO
+		return Array.isArray(list);
+	}
+
 	/** @param {SequenceStepModifier} handler */
 	step(handler) {
 		this.#list.push(handler);
@@ -92,6 +101,18 @@ class Avatar {
 		};
 	}
 
+	/**
+	 * @param {SequenceFreezedArray} sequence
+	 * @param {boolean} [loop=true]
+	 */
+	createAnimation(sequence, loop = true) {
+		return new AvatarAnimation(this, sequence, loop);
+	}
+
+	get isLoaded() {
+		return document.body.contains(this.#img);
+	}
+
 	render() {
 		if (!this.#shouldUpdate) return;
 
@@ -120,7 +141,7 @@ class Avatar {
 					(x) => x !== action
 				);
 			} else if (action === "sig")
-				actions.push([action, this.#state.signItem].join("="))
+				actions.push([action, this.#state.signItem].join("="));
 			else actions.push(action);
 		}
 		if (actions.length) params.set("action", actions.join(","));
@@ -242,7 +263,7 @@ class Avatar {
 
 	set headOnly(on = true) {
 		this.#shouldUpdate = true;
-		this.#state.headOnly = on;
+		this.#state.headOnly = `${on}`.toLowerCase() === "false" ? false : !!on;
 	}
 }
 
@@ -255,7 +276,7 @@ class AvatarAnimation {
 	/** @type {SequenceFreezedArray} */
 	#originalSequence = null;
 	/** @type {boolean} */
-	#loop = null;
+	loop = null;
 
 	/** @type {SequenceArray} */
 	#currentSequence = null;
@@ -271,10 +292,10 @@ class AvatarAnimation {
 	 * @param {SequenceFreezedArray} sequence
 	 * @param {boolean} [loop=false]
 	 */
-	constructor(avatar, sequence, loop = false) {
+	constructor(avatar, sequence, loop = true) {
 		this.#avatar = avatar;
 		this.#originalSequence = sequence;
-		this.#loop = loop;
+		this.loop = loop;
 
 		this.#currentSequence = sequence.slice();
 		this.#timingThen = Date.now();
@@ -288,16 +309,16 @@ class AvatarAnimation {
 
 		const elapsed = now - this.#timingThen;
 
-		if (
-			this.#loop &&
-			!this.#currentSequence.length &&
-			!this.#waiting2Reset
-		) {
+		if (!this.#currentSequence.length && !this.#waiting2Reset) {
 			if (this.#delay) {
 				this.#waiting2Reset = true;
 				setTimeout(() => {
 					this.#waiting2Reset = false;
-					this.reset();
+					if (this.loop) {
+						this.reset();
+					} else {
+						this.stop();
+					}
 				}, this.#delay);
 			} else {
 				this.reset();
@@ -332,6 +353,10 @@ class AvatarAnimation {
 
 	get isPlaying() {
 		return this.#rendering;
+	}
+
+	get isLoaded() {
+		return this.#avatar.isLoaded;
 	}
 
 	play() {
@@ -369,6 +394,14 @@ class AnimationController {
 	/** @param {number} fps */
 	constructor(fps) {
 		this.fps = fps;
+	}
+
+	clearUnloadedAvatars() {
+		for (const entry of Object.entries(this.#animations)) {
+			if (!entry[1].isLoaded) {
+				this.#animations.splice(entry[0], 1);
+			}
+		}
 	}
 
 	set fps(fps) {

@@ -1,3 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
+body,
+::-webkit-input-placeholder,
+select,
+button {
+	font-family: "Ubuntu";
+}
+
+h1,
+h2 {
+	text-align: center;
+	margin: 0;
+}
+hr {
+	border-style: solid;
+	border-width: 1px 1px 0 0;
+	margin: 0;
+}
+button:not(:disabled) {
+	cursor: pointer !important;
+}
+button:disabled {
+	cursor: not-allowed !important;
+}
+
+section {
+	margin-bottom: 30px;
+}
+
+#creator {
+	display: flex;
+	border: 1px solid #ccc;
+	--spacing: 8px;
+	border-radius: var(--spacing);
+	padding: var(--spacing);
+	gap: var(--spacing);
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+#creator > hr {
+	border-color: #ccc;
+}
+
+@media (width <= 600px) {
+	#creator {
+		flex-direction: column;
+	}
+}
+
+.step-list {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid rgba(0, 0, 0, 0.4);
+	border-radius: 6px;
+	overflow: hidden;
+}
+.step-list > hr {
+	border-color: rgba(0, 0, 0, 0.4);
+}
+
+.step-list .step {
+	background-color: #ccf;
+	padding: 10px 10px 10px 35px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.step-list .step::before {
+	content: "STEP";
+	position: absolute;
+	transform-origin: center center;
+	transform: translate(-50%, -50%) rotateZ(-90deg);
+	left: 15px;
+	top: 50%;
+	font-size: 0.7em;
+}
+.step-list .step.delay {
+	background-color: #ccc;
+}
+.step-list .step.delay::before {
+	content: "DELAY";
+}
+.controls {
+	display: flex;
+	gap: 4px;
+	justify-content: center;
+	font-size: 0.8em;
+	flex-wrap: wrap;
+}
+.controls button {
+	all: unset;
+	border-radius: 3px;
+}
+.controls button,
+.controls .btn-group label {
+	border-radius: 3px;
+	padding: 3px 10px;
+	background-color: #eee;
+	border: 1px solid #ddd;
+	white-space: nowrap;
+}
+.controls .btn-group {
+	display: flex;
+	/* align-items: center; */
+}
+.controls .btn-group label {
+	display: inline-block;
+}
+
+.controls .btn-group *:has(~ *) {
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
+.controls .btn-group * ~ * {
+	border-left: 0 !important;
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
+}
+.controls [data-handler="add-change"] {
+	background-color: rgba(0, 0, 0, 0.4);
+	color: white;
+}
+.controls [data-handler="add-step"] {
+	background-color: #ccf;
+}
+.controls [data-handler="add-delay"] {
+	background-color: #ccc;
+}
+.controls [data-handler="reset"] {
+	background-color: #fcc;
+}
+.controls [data-handler="save-seq"],
+.controls [data-handler="save-anim"] {
+	background-color: #cfc;
+}
+.controls hr {
+	border-color: #ccc;
+}
+
+#creator > * {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing);
+}
+
+#creations .list {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
 .animated-avatar {
 	display: inline-flex;
 	vertical-align: top;
@@ -6,4 +163,5 @@
 }
 .animated-avatar:has(.loading) {
 	border-style: dashed;
+	cursor: wait;
 }

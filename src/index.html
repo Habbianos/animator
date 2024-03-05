@@ -1,20 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Habbo Animator</title>
 	<link rel="stylesheet" href="static/style.css">
 </head>
+
 <body>
-	<div class="animated-avatar" data-hotel="com.br" data-nickname="alynva" data-sequence="default"></div>
-	<div class="animated-avatar" data-hotel="com.br" data-nickname=",Liah..." data-sequence="default"></div>
-	<div class="animated-avatar" data-hotel="com.br" data-figure="hr-893-61.hd-180-1.ch-215-96.lg-280-93.sh-290-101.ha-1013-1423.wa-2003" data-sequence="rotateHead"></div>
-	<div class="animated-avatar" data-hotel="com.br" data-nickname="GuReiPanda" data-sequence="artist"></div>
-	<div class="animated-avatar" data-hotel="com.br" data-nickname="alynva" data-sequence="test1"></div>
-	<div class="animated-avatar" data-hotel="com.br" data-nickname="alynva" data-sequence="test2"></div>
+	<h1>Animator</h1>
+	<section>
+		<div id="creator">
+			<div class="sequence">
+				<h2>Sequence</h2>
+				<form class="step-list">
+				</form>
+				<div class="controls">
+					<div class="btn-group">
+						<button type="button" data-handler="add-step">add step</button>
+						<button type="button" data-handler="add-delay">add delay</button>
+					</div>
+					<hr />
+					<button type="button" data-handler="reset">reset</button>
+					<button type="button" data-handler="save-seq" disabled>save</button>
+				</div>
+			</div>
+			<hr />
+			<div class="preview">
+				<h2>Animation</h2>
+				<form id="form-preview">
+					<select name="sequence">
+					</select>
+					<select name="avatar">
+						<option selected>live avatar</option>
+						<option>figure</option>
+					</select>
+					<div class="avatar-field">
+						<input type="text" name="hotel" placeholder="Hotel" value="com.br" list="hotels">
+						<input type="text" name="nickname" placeholder="Nickname" value="alynva">
+					</div>
+					<datalist id="hotels">
+						<option value="com">
+						<option value="com.br">
+						<option value="es">
+						<option value="nl">
+						<option value="de">
+						<option value="fr">
+					</datalist>
+				</form>
+				<div class="avatar"></div>
+				<div class="controls">
+					<button type="button" data-handler="save-anim" disabled>save</button>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div id="creations">
+			<h2>My creations</h2>
+			<div class="list"></div>
+		</div>
+	</section>
 
 	<script src="lib/animator.js"></script>
 	<script src="static/script.js"></script>
 </body>
+
 </html>
